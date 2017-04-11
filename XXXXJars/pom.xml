@@ -1,0 +1,109 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>ar.com.parent.jar</groupId>
+	<artifactId>XXXXJars</artifactId>
+	<packaging>pom</packaging>
+	<version>1.0</version>
+
+	<modules>
+		<module>../XXXXEntities</module>
+		<module>../XXXXPersistence</module>
+		<module>../XXXXCommons</module>
+		<module>../XXXXServices</module>
+		<module>../XXXXBusiness</module>
+		<module>../XXXXReports</module>
+		<module>../XXXXWeb</module>
+	</modules>
+
+	<dependencies>
+		<!-- Junit -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.12</version>
+		</dependency>
+
+		<!-- Log4j -->
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-core</artifactId>
+			<version>2.8.1</version>
+		</dependency>
+
+		<!-- Mockito -->
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-core</artifactId>
+			<version>2.7.15</version>
+		</dependency>
+	</dependencies>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+
+
+	<build>
+<!-- 		<sourceDirectory>src</sourceDirectory> -->
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.5.1</version>
+				<configuration>
+					<source>1.8</source>
+					<target>1.8</target>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>cobertura-maven-plugin</artifactId>
+				<version>2.7</version>
+				<configuration>
+					<instrumentation>
+						<ignores>
+							<ignore>ar.com.xxxx.persistence.dao.test.*</ignore>
+							<ignore>ar.com.web.controller.test.*</ignore>
+							<ignore>ar.com.xxxx.persistence.base.exceptions.*</ignore>
+						</ignores>
+						<excludes>
+							<exclude>ar/com/xxxx/persistence/dao/test/impl/*.class</exclude>
+							<exclude>ar/com/xxxx/persistence/base/exceptions/*.class</exclude>
+							<exclude>ar/com/web/controller/test/usuario/*.class</exclude>
+						</excludes>
+
+
+					</instrumentation>
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>clean</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+		</plugins>
+	</build>
+
+	<reporting>
+		<plugins>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>cobertura-maven-plugin</artifactId>
+				<version>2.7</version>
+				<configuration>
+					<formats>
+						<format>html</format>
+					</formats>
+					<aggregate>true</aggregate>
+
+				</configuration>
+			</plugin>
+
+		</plugins>
+	</reporting>
+</project>
