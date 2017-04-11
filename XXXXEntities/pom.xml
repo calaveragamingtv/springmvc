@@ -1,0 +1,35 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>ar.com.parent.jar</groupId>
+		<artifactId>XXXXJars</artifactId>
+		<version>1.0</version>
+		<relativePath>../XXXXJars/pom.xml</relativePath>
+	</parent>
+	
+	<groupId>ar.com.xxxx.entities</groupId>
+	<artifactId>XXXXEntities</artifactId>
+	<packaging>jar</packaging>
+	<version>1.2</version>
+
+	<properties>
+		<hibernate.version>4.3.5.Final</hibernate.version>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-validator</artifactId>
+			<version>5.0.1.Final</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-core</artifactId>
+			<version>${hibernate.version}</version>
+		</dependency>
+	</dependencies>
+
+	
+</project>
