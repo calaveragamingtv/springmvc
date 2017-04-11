@@ -1,0 +1,33 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<parent>
+		<groupId>ar.com.parent.jar</groupId>
+		<artifactId>XXXXJars</artifactId>
+		<version>1.0</version>
+		<relativePath>../XXXXJars/pom.xml</relativePath>
+	</parent>
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>ar.com.xxxx.reports</groupId>
+	<artifactId>XXXXReports</artifactId>
+	<packaging>jar</packaging>
+	<version>1.6</version>
+
+
+	<dependencies>
+		<dependency>
+			<groupId>net.sf.jasperreports</groupId>
+			<artifactId>jasperreports</artifactId>
+			<version>5.6.1</version>
+		</dependency>
+
+		<dependency>
+			<groupId>ar.com.xxxxproyecto.commons</groupId>
+			<artifactId>XXXXCommons</artifactId>
+			<version>1.1</version>
+		</dependency>
+
+
+
+	</dependencies>
+
+</project>
