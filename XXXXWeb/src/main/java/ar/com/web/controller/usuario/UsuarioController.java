@@ -124,6 +124,7 @@ public class UsuarioController {
         if (result.hasErrors()) {
             model = new ModelAndView("usuario/usuarioAlta");
 
+System.out.println();
         } else {
             model = new ModelAndView();
             try {
