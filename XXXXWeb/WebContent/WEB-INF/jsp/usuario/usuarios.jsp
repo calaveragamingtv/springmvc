@@ -34,6 +34,10 @@
    "http://www.w3.org/TR/html4/loose.dtd">
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+
+<head>
+<script src="https://www.google.com/recaptcha/api.js"></script>
+</head>
  
 
 	<div class="container">

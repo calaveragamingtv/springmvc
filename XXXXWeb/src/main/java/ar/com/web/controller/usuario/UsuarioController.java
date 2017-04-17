@@ -9,6 +9,7 @@ import javax.validation.Valid;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -22,11 +23,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import ar.com.web.controller.base.VerifyRecaptcha;
 import ar.com.web.controller.exceptions.WebException;
 import ar.com.xxxx.business.base.exceptions.BusinessException;
 import ar.com.xxxx.business.impl.IUsuarioBusiness;
 import ar.com.xxxx.commons.constants.Constantes;
 import ar.com.xxxx.entities.bo.Usuario;
+import ar.com.xxxx.entities.dto.UsuarioDTO;
 
 /**
  * <p>
@@ -45,6 +48,10 @@ public class UsuarioController {
      * </p>
      */
     private static final Logger LOGGER = Logger.getLogger(UsuarioController.class);
+
+
+    @Value("${login.recaptcha}")
+    private String mensajeErrorRecaptcha;
 
     /**
      * <p>
@@ -98,7 +105,7 @@ public class UsuarioController {
     @RequestMapping(value = "/nuevoUsuario", method = RequestMethod.GET)
     public ModelAndView newUsuario(final ModelAndView model) {
         LOGGER.info(Constantes.LOGGER_ENTRANDO + "newUsuario");
-        final Usuario usuario = new Usuario();
+        final UsuarioDTO usuario = new UsuarioDTO();
         model.addObject("usuario", usuario);
         model.setViewName("usuario/usuarioAlta");
         LOGGER.info(Constantes.LOGGER_SALIENDO + "newUsuario");
@@ -117,23 +124,30 @@ public class UsuarioController {
      * @throws WebException
      */
     @RequestMapping(value = "/guardarUsuario", method = RequestMethod.POST)
-    public ModelAndView saveUsuario(@Valid @ModelAttribute("usuario") final Usuario usuario, final BindingResult result)
+    public ModelAndView saveUsuario(@Valid @ModelAttribute("usuario") final UsuarioDTO usuario, final BindingResult result, HttpServletRequest request)
             throws IOException, WebException {
         LOGGER.info(Constantes.LOGGER_ENTRANDO + "saveUsuario");
         ModelAndView model;
-        if (result.hasErrors()) {
-            model = new ModelAndView("usuario/usuarioAlta");
+        // get reCAPTCHA request param
+        String gRecaptchaResponse = request.getParameter("g-recaptcha-response");
+        System.out.println(gRecaptchaResponse);
+        boolean verify = VerifyRecaptcha.verify(gRecaptchaResponse);
+        if (!verify) {
+           usuario.setRecaptchaMessage(this.mensajeErrorRecaptcha);
+        }
 
-System.out.println();
+        if (result.hasErrors() || !verify) {
+            model = new ModelAndView("usuario/usuarioAlta");
         } else {
             model = new ModelAndView();
             try {
+                Usuario usuarioBO = usuario.invert();
                 if (usuario.getId() == 0) {
                     // if employee id is 0 then creating the
                     // employee other updating the employee
-                    iUsuarioBusiness.add(usuario);
+                    iUsuarioBusiness.add(usuarioBO);
                 } else {
-                    iUsuarioBusiness.saveOrUpdate(usuario);
+                    iUsuarioBusiness.saveOrUpdate(usuarioBO);
                 }
 
                 model = listUsuarios(new ModelAndView());
@@ -213,9 +227,11 @@ System.out.println();
         ModelAndView model = null;
         try {
             final int idUsuario = Integer.parseInt(request.getParameter("id"));
-            final Usuario usuario = iUsuarioBusiness.get(idUsuario);
+            final Usuario usuarioBO = iUsuarioBusiness.get(idUsuario);
+            UsuarioDTO usuarioDTO = new UsuarioDTO();
+            usuarioDTO.convert(usuarioBO);
             model = new ModelAndView("usuario/usuarioAlta");
-            model.addObject("usuario", usuario);
+            model.addObject("usuario", usuarioDTO);
 
         } catch (BusinessException e) {
             throw new WebException(e.getMessage(), e.getCause());
@@ -317,6 +333,20 @@ System.out.println();
      */
     public void setiUsuarioBusiness(final IUsuarioBusiness iUsuarioBusiness) {
         this.iUsuarioBusiness = iUsuarioBusiness;
+    }
+
+    /**
+     * @return the mensajeErrorRecaptcha
+     */
+    public String getMensajeErrorRecaptcha() {
+        return mensajeErrorRecaptcha;
+    }
+
+    /**
+     * @param mensajeErrorRecaptcha the mensajeErrorRecaptcha to set
+     */
+    public void setMensajeErrorRecaptcha(String mensajeErrorRecaptcha) {
+        this.mensajeErrorRecaptcha = mensajeErrorRecaptcha;
     }
 
 }

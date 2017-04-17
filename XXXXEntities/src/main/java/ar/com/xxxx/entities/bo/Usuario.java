@@ -73,6 +73,19 @@ public class Usuario extends AbstractBO implements java.io.Serializable   {
 		this.apellido = apellido;
 	}
 
+	   /**
+     * <p>Constructor con nombre, apellido y id.</p>
+     * @param nombre
+     * @param apellido
+     * @param id
+     */
+    public Usuario(final String nombre, final String apellido, final int id) {
+        super();
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.id = id;
+    }
+
 	/**
 	 * <p>Getter del id.</p>
 	 * @return

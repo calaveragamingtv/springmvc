@@ -3,6 +3,8 @@
 	<name>XXXXWeb</name>
 	<comment></comment>
 	<projects>
+		<project>XXXXServices</project>
+		<project>XXXXBusiness</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
